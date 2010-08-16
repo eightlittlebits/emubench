@@ -6,8 +6,8 @@ using System.Diagnostics;
 
 namespace EmuBench
 {
-    struct CPU
-	{
+    public struct CPU
+    {
         const uint regs = 4;
 
         public CPU(string name)
@@ -37,18 +37,19 @@ namespace EmuBench
         public uint[] reg;
         public uint cycles;
         public string name;
-	} 
+    }
 
-    partial class Program
+    public partial class Program
     {
-        const uint repeat = 128;
-        const uint bufferSize = 1000000;
-        //const uint repeat = 1000000;
-        //const uint bufferSize = 12;
+        //const uint repeat = 128;
+        //const uint bufferSize = 1000000;
+        const uint repeat = 10000000;
+        const uint bufferSize = 12;
 
         static CPU CPU0 = new CPU("Switch Case");
         static CPU CPU1 = new CPU("Function Table");
         static CPU CPU2 = new CPU("Function Caching");
+        static CPU CPU3 = new CPU("Simple Dynarec");
 
         static bool loadBufferRand(out byte[] buffer, uint size)
         {
@@ -86,9 +87,9 @@ namespace EmuBench
             scMS.Start();
 
             for (int i = 0; i < repeat; i++)
-			{
+            {
                 switchTableExecute(ref CPU0, buffer, bufferSize);
-			}
+            }
 
             scMS.Stop();
             Console.WriteLine("Done.");
@@ -100,9 +101,9 @@ namespace EmuBench
             ftMS.Start();
 
             for (int i = 0; i < repeat; i++)
-			{
+            {
                 functTableExecute(ref CPU1, buffer, bufferSize);
-			}
+            }
 
             ftMS.Stop();
             Console.WriteLine("Done.");
@@ -119,6 +120,20 @@ namespace EmuBench
             }
 
             fcMS.Stop();
+            Console.WriteLine("Done.");
+
+            // simple dynarec test
+            Console.WriteLine("Testing simple dynarec...");
+
+            Stopwatch sdMS = new Stopwatch();
+            sdMS.Start();
+
+            for (int i = 0; i < repeat; i++)
+            {
+                dynarecExecute(ref CPU3, buffer, bufferSize);
+            }
+
+            sdMS.Stop();
             Console.WriteLine("Done.\n");
 
             // Performance Analysis
@@ -128,27 +143,38 @@ namespace EmuBench
             Console.Write("Switch Statement: "); printTime(scMS.ElapsedMilliseconds);
             Console.Write("Function Table:   "); printTime(ftMS.ElapsedMilliseconds);
             Console.Write("Function Caching: "); printTime(fcMS.ElapsedMilliseconds);
+            Console.Write("Simple Dynarec:   "); printTime(sdMS.ElapsedMilliseconds);
 
             long d0 = scMS.ElapsedMilliseconds;
             long d1 = ftMS.ElapsedMilliseconds;
             long d2 = fcMS.ElapsedMilliseconds;
+            long d3 = sdMS.ElapsedMilliseconds;
 
-            long m = Math.Min(Math.Min(d0, d1), d2);
+            long m = Math.Min(Math.Min(d0, d1), Math.Min(d2, d3));
 
             if (m == d0)
             {
-                Console.WriteLine("\nSwitch Statement was {0:G5} times faster than Function Table...", (double)d1/d0);
-                Console.WriteLine("Switch Statement was {0:G5} times faster than Function Caching...\n", (double)d2/d0);
+                Console.WriteLine("\nSwitch Statement was {0:G5} times faster than Function Table...", (double)d1 / d0);
+                Console.WriteLine("Switch Statement was {0:G5} times faster than Function Caching...", (double)d2 / d0);
+                Console.WriteLine("Switch statement was {0:G5} times faster than Simple Dynarec...\n", (double)d3 / d0);
             }
             else if (m == d1)
             {
                 Console.WriteLine("\nFunction Table was {0:G5} times faster than Switch Statement...", (double)d0 / d1);
-                Console.WriteLine("Function Table was {0:G5} times faster than Function Caching...\n", (double)d2 / d1);
+                Console.WriteLine("Function Table was {0:G5} times faster than Function Caching...", (double)d2 / d1);
+                Console.WriteLine("Function Table was {0:G5} times faster than Simple Dynarec...\n", (double)d3 / d1);
             }
             else if (m == d2)
             {
                 Console.WriteLine("\nFunction Caching was {0:G5} times faster than Switch Statement...", (double)d0 / d2);
-                Console.WriteLine("Function Caching was {0:G5} times faster than Function Caching...\n", (double)d1 / d2);
+                Console.WriteLine("Function Caching was {0:G5} times faster than Function Caching...", (double)d1 / d2);
+                Console.WriteLine("Function Caching was {0:G5} times faster than Simple Dynarec...\n", (double)d3 / d2);
+            }
+            else if (m == d3)
+            {
+                Console.WriteLine("\nSimple Dynarec was {0:G5} times faster than Switch Statement...", (double)d0 / d3);
+                Console.WriteLine("Simple Dynarec was {0:G5} times faster than Function Table...", (double)d1 / d3);
+                Console.WriteLine("Simple Dynarec was {0:G5} times faster than Function Caching...\n", (double)d2 / d3);
             }
 
             // Reg Results
@@ -159,6 +185,7 @@ namespace EmuBench
             CPU0.print(); Console.WriteLine();
             CPU1.print(); Console.WriteLine();
             CPU2.print(); Console.WriteLine();
+            CPU3.print(); Console.WriteLine();
 
             // Finished
             Console.WriteLine("Testing Completed!");

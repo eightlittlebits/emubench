@@ -47,6 +47,7 @@
     <Compile Include="Program.FunctCached.cs" />
     <Compile Include="Program.FunctTable.cs" />
     <Compile Include="Program.Opcodes.cs" />
+    <Compile Include="Program.SimpleDynarec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
