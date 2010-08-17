@@ -41,10 +41,8 @@ namespace EmuBench
 
     public partial class Program
     {
-        //const uint repeat = 128;
-        //const uint bufferSize = 1000000;
-        const uint repeat = 10000000;
-        const uint bufferSize = 12;
+        const uint repeat = 1024 * 128;
+        const uint bufferSize = 1024*2;
 
         static CPU CPU0 = new CPU("Switch Case");
         static CPU CPU1 = new CPU("Function Table");
@@ -123,7 +121,7 @@ namespace EmuBench
             Console.WriteLine("Done.");
 
             // simple dynarec test
-            Console.WriteLine("Testing simple dynarec...");
+            Console.Write("Testing simple dynarec...");
 
             Stopwatch sdMS = new Stopwatch();
             sdMS.Start();

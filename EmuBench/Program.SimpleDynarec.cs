@@ -16,17 +16,19 @@ namespace EmuBench
         {
             if (!dInited)
             {
-                DynamicMethod dynaRec = new DynamicMethod("dynaRec", null, new Type[] { typeof(Program), typeof(CPU).MakeByRefType() });
+                DynamicMethod dynaRec = new DynamicMethod("dynaRec", null, new Type[] { typeof(CPU).MakeByRefType() });
 
                 ILGenerator ilg = dynaRec.GetILGenerator();
+                ilg.Emit(OpCodes.Ldarg_0);
 
                 for (int i = 0; i < size; i++)
                 {
-                    ilg.Emit(OpCodes.Ldarg_1);
+                    ilg.Emit(OpCodes.Dup);
                     MethodInfo meth = typeof(Program).GetMethod("test" + (buff[i] & 0x3f).ToString("00"), BindingFlags.Static | BindingFlags.Public);
                     ilg.Emit(OpCodes.Call, meth);
                 }
 
+                ilg.Emit(OpCodes.Pop);
                 ilg.Emit(OpCodes.Ret);
 
                 dCache = (Opcode)dynaRec.CreateDelegate(typeof(Opcode));
