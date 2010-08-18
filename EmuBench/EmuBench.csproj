@@ -44,9 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
+    <Compile Include="Program.EmitOpcodes.cs" />
     <Compile Include="Program.FunctCached.cs" />
     <Compile Include="Program.FunctTable.cs" />
     <Compile Include="Program.Opcodes.cs" />
+    <Compile Include="Program.OptimisedDynarec.cs" />
     <Compile Include="Program.SimpleDynarec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

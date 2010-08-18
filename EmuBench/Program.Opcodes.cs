@@ -182,7 +182,6 @@ namespace EmuBench
             cpu.reg[0] += cpu.reg[3];
             cpu.reg[0] |= 9;
             cpu.cycles += 2;
-            cpu.cycles += 2;
         }
         public static void test29(ref CPU cpu)
         {
@@ -230,19 +229,19 @@ namespace EmuBench
         public static void test36(ref CPU cpu)
         {
             cpu.reg[1] += cpu.reg[3];
-            cpu.reg[3] /= 18;
+            cpu.reg[3] -= 18;
             cpu.cycles += 8;
         }
         public static void test37(ref CPU cpu)
         {
             cpu.reg[2] += cpu.reg[3];
-            cpu.reg[3] /= 19;
+            cpu.reg[3] ^= 19;
             cpu.cycles += 8;
         }
         public static void test38(ref CPU cpu)
         {
             cpu.reg[3] += cpu.reg[3];
-            cpu.reg[0] /= 20;
+            cpu.reg[0] ^= 20;
             cpu.cycles += 7;
         }
 
