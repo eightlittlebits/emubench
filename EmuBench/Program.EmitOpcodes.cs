@@ -18,7 +18,8 @@ namespace EmuBench
             Xor,
             Sub,
             Mul,
-            Add
+            Add,
+            Div
         }
 
         public static void buildOpDictionaries()
@@ -76,6 +77,7 @@ namespace EmuBench
                 case Op.Sub: ilg.Emit(OpCodes.Sub); break;
                 case Op.Mul: ilg.Emit(OpCodes.Mul); break;
                 case Op.Add: ilg.Emit(OpCodes.Add); break;
+                case Op.Div: ilg.Emit(OpCodes.Div_Un); break;
                 default:
                     throw new NotImplementedException();
             }
@@ -449,31 +451,31 @@ namespace EmuBench
         public static void emit36(ILGenerator ilg)
         {
             //cpu.reg[1] += cpu.reg[3];
-            //cpu.reg[3] -= 18;
+            //cpu.reg[3] /= 18;
             //cpu.cycles += 8;
 
             emitAddRegToReg(ilg, 1, 3);
-            emitOpRegWithImmed(ilg, 3, Op.Sub, 18);
+            emitOpRegWithImmed(ilg, 3, Op.Div, 18);
             emitAddCycles(ilg, 8);
         }
         public static void emit37(ILGenerator ilg)
         {
             //cpu.reg[2] += cpu.reg[3];
-            //cpu.reg[3] ^= 19;
+            //cpu.reg[3] /= 19;
             //cpu.cycles += 8;
 
             emitAddRegToReg(ilg, 2, 3);
-            emitOpRegWithImmed(ilg, 3, Op.Xor, 19);
+            emitOpRegWithImmed(ilg, 3, Op.Div, 19);
             emitAddCycles(ilg, 8);
         }
         public static void emit38(ILGenerator ilg)
         {
             //cpu.reg[3] += cpu.reg[3];
-            //cpu.reg[0] ^= 20;
+            //cpu.reg[0] /= 20;
             //cpu.cycles += 7;
 
             emitAddRegToReg(ilg, 3, 3);
-            emitOpRegWithImmed(ilg, 0, Op.Xor, 20);
+            emitOpRegWithImmed(ilg, 0, Op.Div, 20);
             emitAddCycles(ilg, 7);
         }
 
