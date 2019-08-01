@@ -218,7 +218,11 @@ namespace EmuBench
 
             // Finished
             Console.WriteLine("Testing Completed!");
-            Console.ReadLine();
+
+            if (Debugger.IsAttached)
+            {
+                Console.ReadLine(); 
+            }
         }
 
         static void printTime(long ms)
