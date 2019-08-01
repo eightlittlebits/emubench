@@ -22,7 +22,7 @@ namespace EmuBench
 
         static void functTable(ref CPU cpu, byte opcode)
         {
-            optTable[opcode & 0x3f](ref cpu);
+            optTable[opcode](ref cpu);
         }
 
         static void functTableExecute(ref CPU cpu, byte[] buff, uint size)
