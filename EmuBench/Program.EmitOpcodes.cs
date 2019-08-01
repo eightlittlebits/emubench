@@ -9,8 +9,8 @@ namespace EmuBench
 {
     partial class Program
     {
-        static Dictionary<int, OpCode> loadOps = new Dictionary<int, OpCode>();
-        static Dictionary<int, OpCode> storeOps = new Dictionary<int, OpCode>();
+        static OpCode[] loadOps = new OpCode[4];
+        static OpCode[] storeOps = new OpCode[4];
 
         public enum Op
         {
@@ -23,15 +23,15 @@ namespace EmuBench
 
         public static void buildOpDictionaries()
         {
-            loadOps.Add(0, OpCodes.Ldloc_0);
-            loadOps.Add(1, OpCodes.Ldloc_1);
-            loadOps.Add(2, OpCodes.Ldloc_2);
-            loadOps.Add(3, OpCodes.Ldloc_3);
+            loadOps[0] = OpCodes.Ldloc_0;
+            loadOps[1] = OpCodes.Ldloc_1;
+            loadOps[2] = OpCodes.Ldloc_2;
+            loadOps[3] = OpCodes.Ldloc_3;
 
-            storeOps.Add(0, OpCodes.Stloc_0);
-            storeOps.Add(1, OpCodes.Stloc_1);
-            storeOps.Add(2, OpCodes.Stloc_2);
-            storeOps.Add(3, OpCodes.Stloc_3);
+            storeOps[0] = OpCodes.Stloc_0;
+            storeOps[1] = OpCodes.Stloc_1;
+            storeOps[2] = OpCodes.Stloc_2;
+            storeOps[3] = OpCodes.Stloc_3;
         }
 
         public static void emitAddRegToReg(ILGenerator ilg, int lh, int rh)
