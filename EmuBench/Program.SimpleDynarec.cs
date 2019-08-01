@@ -16,7 +16,7 @@ namespace EmuBench
         {
             if (!dInited)
             {
-                DynamicMethod dynaRec = new DynamicMethod("dynaRec", null, new Type[] { typeof(CPU).MakeByRefType() });
+                DynamicMethod dynaRec = new DynamicMethod("dynaRec", null, new Type[] { typeof(CPU).MakeByRefType() }, typeof(Program), true);
 
                 ILGenerator ilg = dynaRec.GetILGenerator();
                 ilg.Emit(OpCodes.Ldarg_0);

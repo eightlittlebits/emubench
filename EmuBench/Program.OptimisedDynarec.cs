@@ -31,7 +31,7 @@ namespace EmuBench
             {
                 buildOpDictionaries();
 
-                DynamicMethod optiRec = new DynamicMethod("optiRec", null, new Type[] { typeof(CPU).MakeByRefType() });
+                DynamicMethod optiRec = new DynamicMethod("optiRec", null, new Type[] { typeof(CPU).MakeByRefType() }, typeof(Program), true);
 
                 ILGenerator ilg = optiRec.GetILGenerator();
 
