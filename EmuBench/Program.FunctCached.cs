@@ -15,7 +15,7 @@ namespace EmuBench
             { // Fill Function Buffer Cache
                 for (uint i = 0; i < size; i++)
                 {
-                    functBuffer[i] = optTable[buff[i] & 0x3f];
+                    functBuffer[i] = optTable[buff[i]];
                 }
             }
             for (uint i = 0; i < size; i++)
