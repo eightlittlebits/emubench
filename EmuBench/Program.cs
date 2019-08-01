@@ -229,7 +229,7 @@ namespace EmuBench
         {
             long msSec = ms / 1000;
             long msDot = ms % 1000;
-            Console.WriteLine("{0}.{1:000} seconds", msSec, msDot);
+            Console.WriteLine("{0}.{1:000} seconds {2:#.00000}ms avg", msSec, msDot, (double)ms / repeat);
         }
     }
 }
